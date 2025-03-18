@@ -27,8 +27,10 @@ class DocumentCameraController {
   }
 
   Future<void> switchCamera() async {
-    if (cameras.isEmpty || cameras.length == 1)
-      return; // Ensure multiple cameras exist
+    // Ensure multiple cameras exist
+    if (cameras.isEmpty || cameras.length == 1) {
+      return;
+    }
 
     _currentCameraIndex =
         (_currentCameraIndex + 1) % cameras.length; // Toggle between cameras
