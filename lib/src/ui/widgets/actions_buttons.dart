@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../document_camera_frame.dart';
+import 'camera_switcher.dart';
 import 'capture_button.dart';
 
 class ActionButtons extends StatelessWidget {
@@ -33,6 +34,8 @@ class ActionButtons extends StatelessWidget {
   final Function(String imgPath) onCaptured;
   final Function(String imgPath) onSaved;
 
+  final Function() onCameraSwitched;
+
   const ActionButtons({
     super.key,
     this.captureInnerCircleRadius,
@@ -61,6 +64,7 @@ class ActionButtons extends StatelessWidget {
     required this.controller,
     required this.onCaptured,
     required this.onSaved,
+    required this.onCameraSwitched,
   });
 
   Future<void> _captureImage(
@@ -107,21 +111,31 @@ class ActionButtons extends StatelessWidget {
               if (imagePath.isEmpty)
                 Padding(
                   padding: captureButtonPadding ??
-                      const EdgeInsets.symmetric(vertical: 18.0),
-                  child: ValueListenableBuilder<bool>(
-                    valueListenable: isLoadingNotifier,
-                    builder: (context, isLoading, child) {
-                      return CaptureButton(
-                        onPressed: () async {
-                          // Prevent action if already capturing
-                          if (isLoading) return;
+                      const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 32.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(width: 45, height: 45),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: isLoadingNotifier,
+                        builder: (context, isLoading, child) {
+                          return CaptureButton(
+                            onPressed: () async {
+                              // Prevent action if already capturing
+                              if (isLoading) return;
 
-                          await _captureImage(onCaptured, context);
+                              await _captureImage(onCaptured, context);
+                            },
+                            captureInnerCircleRadius: captureInnerCircleRadius,
+                            captureOuterCircleRadius: captureOuterCircleRadius,
+                          );
                         },
-                        captureInnerCircleRadius: captureInnerCircleRadius,
-                        captureOuterCircleRadius: captureOuterCircleRadius,
-                      );
-                    },
+                      ),
+
+                      // Camera Switch Button
+                      CameraSwitcher(onTap: onCameraSwitched),
+                    ],
                   ),
                 )
               else ...[

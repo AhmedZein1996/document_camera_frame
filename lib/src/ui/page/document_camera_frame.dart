@@ -275,8 +275,7 @@ class _DocumentCameraFrameState extends State<DocumentCameraFrame> {
               child: CustomPaint(
                 painter: DocumentCameraFramePainter(
                   frameWidth: widget.frameWidth,
-                  frameHeight: widget.frameHeight +
-                      AppConstants.bottomFrameContainerHeight,
+                  frameHeight: widget.frameHeight + AppConstants.bottomFrameContainerHeight,
                   borderRadius: widget.outerFrameBorderRadius,
                 ),
               ),
@@ -314,17 +313,37 @@ class _DocumentCameraFrameState extends State<DocumentCameraFrame> {
 
             /// Display action buttons
             ActionButtons(
-              frameWidth: widget.frameWidth,
-              frameHeight: widget.frameHeight,
-              bottomFrameContainerHeight:
-                  AppConstants.bottomFrameContainerHeight,
+              captureOuterCircleRadius: widget.captureOuterCircleRadius,
+              captureInnerCircleRadius: widget.captureInnerCircleRadius,
+              captureButtonAlignment: widget.captureButtonAlignment,
+              captureButtonPadding: widget.captureButtonPadding,
+              saveButtonPadding: widget.saveButtonPadding,
+              retakeButtonPadding: widget.retakeButtonPadding,
+              saveButtonText: widget.saveButtonText,
+              retakeButtonText: widget.retakeButtonText,
+              saveButtonTextStyle: widget.saveButtonTextStyle,
+              retakeButtonTextStyle: widget.retakeButtonTextStyle,
+              saveButtonStyle: widget.saveButtonStyle,
+              retakeButtonStyle: widget.retakeButtonStyle,
+              saveButtonWidth: widget.saveButtonWidth,
+              saveButtonHeight: widget.saveButtonHeight,
+              retakeButtonWidth: widget.retakeButtonWidth,
+              retakeButtonHeight: widget.retakeButtonHeight,
               capturedImageNotifier: capturedImageNotifier,
               isLoadingNotifier: isLoadingNotifier,
               onSave: widget.onSaved,
               onRetake: widget.onRetake,
+              frameWidth: widget.frameWidth,
+              frameHeight: widget.frameHeight,
+              bottomFrameContainerHeight: AppConstants.bottomFrameContainerHeight,
               controller: _controller,
               onCaptured: widget.onCaptured,
               onSaved: widget.onSaved,
+              onCameraSwitched: () async {
+                isInitializedNotifier.value = false; // Hide preview temporarily
+                await _controller.switchCamera();
+                isInitializedNotifier.value = true; // Show preview again
+              },
             ),
           ],
         ),

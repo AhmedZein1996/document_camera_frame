@@ -63,3 +63,11 @@
 ## 0.1.4
 
 - Update Readme.md.
+
+## 0.1.5
+
+- Features
+    - camera: Added camera switch icon reference.
+- Fixes
+    - camera: Ensured retakeButtonText and saveButtonText reflect in the UI.
+    - camera: Allowed setting the camera instead of defaulting to back (ID 0).

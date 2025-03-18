@@ -1,6 +1,6 @@
 name: document_camera_frame
 description: Flutter package for capturing and cropping document images with a customizable camera interface.
-version: 0.1.4
+version: 0.1.5
 homepage: https://github.com/AhmedZein1996/document_camera_frame.git
 
 environment:
@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  image: ^4.5.2
-  camera: ^0.11.0+2
+  image: ^4.5.3
+  camera: ^0.11.1
   path_provider: ^2.1.5
   flutter_animate: ^4.5.2
 

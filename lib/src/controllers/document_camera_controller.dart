@@ -13,23 +13,40 @@ class DocumentCameraController {
   String _imagePath = '';
 
   String get imagePath => _imagePath;
+  int _currentCameraIndex = 0; // Track the current camera
 
-  // Expose the cameraController for CameraPreview
   CameraController? get cameraController => _cameraService.cameraController;
+  List<CameraDescription> cameras = [];
 
-  Future<void> initialize(int cameraIndex) async => _cameraService.initialize(cameraIndex);
+  Future<void> initialize(int cameraIndex) async {
+    cameras = await availableCameras(); // Load cameras only once
+    if (cameras.isNotEmpty) {
+      _currentCameraIndex = cameraIndex;
+      await _cameraService.initialize(cameras[cameraIndex]);
+    }
+  }
+
+  Future<void> switchCamera() async {
+    if (cameras.isEmpty || cameras.length == 1)
+      return; // Ensure multiple cameras exist
+
+    _currentCameraIndex =
+        (_currentCameraIndex + 1) % cameras.length; // Toggle between cameras
+
+    // Smooth transition: Pause before switching
+    await cameraController?.pausePreview();
+    await _cameraService.initialize(cameras[_currentCameraIndex]);
+    await cameraController?.resumePreview(); // Resume after switching
+  }
 
   bool get isInitialized => _cameraService.isInitialized;
 
   Future<void> takeAndCropPicture(
       double frameWidth, double frameHeight, BuildContext context) async {
     if (!_cameraService.isInitialized) return;
-
     try {
       final filePath = await _cameraService.captureImage();
-
       if (!context.mounted) return;
-
       _imagePath = _imageProcessingService.cropImageToFrame(
           filePath, frameWidth, frameHeight, context);
     } catch (e) {

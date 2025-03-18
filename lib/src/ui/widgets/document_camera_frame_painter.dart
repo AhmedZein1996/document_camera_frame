@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class DocumentCameraFramePainter extends CustomPainter {
   final double frameWidth;
   final double frameHeight;
-
   final double borderRadius;
 
   DocumentCameraFramePainter({

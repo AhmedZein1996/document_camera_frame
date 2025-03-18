@@ -9,12 +9,15 @@ class CameraService {
   bool get isInitialized =>
       cameraController != null && cameraController!.value.isInitialized;
 
-  Future<void> initialize(int cameraIndex) async {
-    final cameras = await availableCameras();
-    if (cameras.isNotEmpty) {
-      cameraController = CameraController(cameras[cameraIndex], ResolutionPreset.high);
-      await cameraController!.initialize();
+  Future<void> initialize(CameraDescription camera) async {
+    if (cameraController != null) {
+      await cameraController!.dispose(); // Dispose only if it's already running
     }
+
+    cameraController = CameraController(camera, ResolutionPreset.ultraHigh);
+    await cameraController!.initialize();
+    await cameraController!
+        .setFlashMode(FlashMode.auto); // Optional: Set flash mode
   }
 
   Future<String> captureImage() async {
