@@ -71,3 +71,7 @@
 - Fixes
     - camera: Ensured retakeButtonText and saveButtonText reflect in the UI.
     - camera: Allowed setting the camera instead of defaulting to back (ID 0).
+
+## 0.1.6
+
+- Update metadata.
