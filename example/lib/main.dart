@@ -29,7 +29,8 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {
             // Navigate to the DocumentCameraFrame example screen when the button is pressed
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const DocumentCameraFrameExample()),
+              MaterialPageRoute(
+                  builder: (context) => const DocumentCameraFrameExample()),
             );
           },
           child: const Text('Start Document Capture'),
@@ -49,7 +50,7 @@ class DocumentCameraFrameExample extends StatelessWidget {
         // Document frame dimensions
         frameWidth: 300.0,
         frameHeight: 200.0,
-  
+
         // Title displayed at the top
         title: const Text(
           'Capture Your Document',
